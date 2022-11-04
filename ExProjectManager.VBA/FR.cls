@@ -39,7 +39,7 @@ Public Property Get origin() As Range
 End Property
 
 Property Get name() As String
-    name = m_title.Cells(0, 1).value
+    name = m_title.Cells(1, 1).value
 End Property
 '''''''''''''''''''''''''''''''''''''''''''''''''''
 ' End of Property section
@@ -95,8 +95,9 @@ Public Sub Load(ByVal tabrng As Range, title As String, orig As Range, ByVal PRJ
     Dim tabOrig, tabrange As Range
     Dim wstDest As Worksheet
     
-    Set m_title = orig.Resize(, tabrng.Columns.Count)
     Set wstDest = orig.Worksheet
+    Set m_title = wstDest.Range(wstDest.Cells(orig.Row - 1, orig.Column), wstDest.Cells(orig.Row - 1, tabrng.Columns.Count))
+    
     
     'wstDest.ListObjects.Add(xlSrcRange, tabrng).name = title
     Set m_tab = wstDest.ListObjects(title)
@@ -159,9 +160,10 @@ End Sub
 
 Sub Clear()
     
-    m_title.Cells.Delete
+    
     m_tab.DataBodyRange.Delete
     m_tab.Delete
+    m_title.Rows(1).EntireRow.Delete
 
 End Sub
 '''''''''''''''''''''''''''''''''''''''''''''''''''

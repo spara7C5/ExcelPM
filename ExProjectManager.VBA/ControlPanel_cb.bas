@@ -133,9 +133,9 @@ Public Sub comm4_callback() 'Remove FR
         res = tmpPRJ.RemoveFR(CStr(.TextB_frname))
         
         If res = True Then
-            MsgBox "FR " & CStr(.TextB_frname) & "removed"
+            MsgBox "FR " & CStr(.TextB_frname) & " removed"
         Else
-            MsgBox "FR " & CStr(.TextB_frname) & "not present in selected project!"
+            MsgBox "FR " & CStr(.TextB_frname) & " not present in selected project!"
         End If
     End With
     
