@@ -121,16 +121,13 @@ Public Sub AddFR(title As String)
     
 End Sub
 
-Function RemoveFR(title As String) As Boolean
+Function RemoveFR(ByVal title As String) As Boolean
     
     Dim auxFR As New FR
-    Dim fullname As String
     Dim auxrng As Range
     Dim auxsht As Worksheet
     
-    
-    fullname = m_name + title 'in order to create a unique FR name
-    Set auxrng = SearchStored(fullname)
+    Set auxrng = SearchStored(title)
     
     If auxrng Is Nothing Then ' FR does not exist
         
@@ -138,15 +135,27 @@ Function RemoveFR(title As String) As Boolean
         
     Else 'FR to be removed
         
-        Set auxFR = m_FRlist.Item(fullname)
+        Set auxFR = m_FRlist.Item(title)
         auxFR.Clear
-        m_FRlist.Remove fullname
-        RemoveFR = DeleteStored(fullname)
+        m_FRlist.Remove title
+        RemoveFR = DeleteStored(title)
     End If
     
 
     
 End Function
+
+Public Sub RemoveAllFR()
+
+    Dim kx As Variant
+    
+    For Each kx In m_FRlist.Keys
+    
+        RemoveFR kx
+    
+    Next kx
+
+End Sub
 
 Public Sub LoadFR(frx As FR)
 

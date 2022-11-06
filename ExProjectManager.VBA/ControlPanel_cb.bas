@@ -71,6 +71,22 @@ End Sub
 
 
 Public Sub comm2_callback() 'Remove Project
+
+    With ControlPanel_Form
+    
+        If Main.Prjlist.Exists(.TextB_name.Text) = False Then
+            MsgBox "project does not exist!Check the name"
+            GoTo exi
+        End If
+    
+    Main.Prjlist.Item(.TextB_name.Text).RemoveAllFR
+    Main.Prjlist.Remove .TextB_name.Text
+    ThisWorkbook.Worksheets(.TextB_name.Text).Delete
+    
+    End With
+   
+exi:
+
 End Sub
 
 Public Sub comm3_callback() 'Add FR
@@ -130,7 +146,7 @@ Public Sub comm4_callback() 'Remove FR
         Set tmpPRJ = Main.Prjlist.Item(CStr(.TextB_name.Text))
         
         
-        res = tmpPRJ.RemoveFR(CStr(.TextB_frname))
+        res = tmpPRJ.RemoveFR(CStr(.TextB_name.Text) + CStr(.TextB_frname))
         
         If res = True Then
             MsgBox "FR " & CStr(.TextB_frname) & " removed"
@@ -268,7 +284,9 @@ Public Sub comm1_change()
 End Sub
 Public Sub comm2_change()
 
-    
+    UngreyCPleft
+    GreyFRup
+    GreyFRdown
     
 End Sub
 
