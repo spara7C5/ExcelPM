@@ -164,6 +164,12 @@ Public Sub LoadFR(frx As FR)
 
 End Sub
 
+Public Function getAllFRstr()
+
+    getAllFRstr = Join(m_FRlist.Keys, ",")
+
+End Function
+
 Public Sub EditFR(frn As String, COLSearch As String, COLValue As String, COLTarget As String, NEWVal As Integer)
     
     Dim frx As FR

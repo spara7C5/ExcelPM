@@ -126,7 +126,7 @@ Sub StoreArray(ByVal arr As Variant, ByVal arrname As String)
     
     Set tmprng = SearchStored(arrname)
     
-    If tmprng Is Nothing Then
+    If tmprng Is Nothing Then 'name not exists, create new one
     
          With wsArrays
     
@@ -145,7 +145,7 @@ Sub StoreArray(ByVal arr As Variant, ByVal arrname As String)
         End With
         
     
-    Else
+    Else 'name already exists, just update
    
         Range(fullname).value = arr
         
@@ -207,6 +207,7 @@ Public Sub LoadObjects()
     Dim tmprng As Variant
     Dim tmpFR As FR
     Dim tmpPRJ As PRJ
+    Dim tmpUSR As USR
     
     Set wbthis = ThisWorkbook
     Set wsArrays = wbthis.Worksheets(SHEETVARS)
@@ -245,10 +246,15 @@ Public Sub LoadObjects()
             ThisWorkbook.Worksheets(Main.FRTEMP).Range(CStr(tmprng(4, 1).value))
             
             Debug.Print "Loaded obj prj: " & tmprng(2, 1).value
-            Main.Prjlist.Add Item:=tmpPRJ, Key:=CStr(tmprng(2, 1).value)
+            Main.prjlist.Add Item:=tmpPRJ, Key:=CStr(tmprng(2, 1).value)
             
         Case USR_OBJ
-        
+       
+            Set tmpUSR = New USR
+            tmpUSR.Load tmprng(2, 1).value
+            
+            Debug.Print "Loaded obj usr: " & tmprng(2, 1).value
+            Main.Usrlist.Add Item:=tmpUSR, Key:=CStr(tmprng(2, 1).value)
         
         End Select
     
@@ -258,7 +264,7 @@ Public Sub LoadObjects()
     
     For Each frx In collfr
     
-        Main.Prjlist.Item(frx.m_prj).LoadFR frx
+        Main.prjlist.Item(frx.m_prj).LoadFR frx
     
     Next frx
     

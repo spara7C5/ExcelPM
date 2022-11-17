@@ -48,7 +48,7 @@ Public Sub comm1_callback() 'Add project
         'newFR2.Create FRrange, "fr5", Prjsht.Cells(newFR.m_tab.TotalsRowRange.Rows.Row + 1, 1)
         'newFR3.Create FRrange, "fr6", Prjsht.Cells(newFR2.m_tab.TotalsRowRange.Rows.Row + 1, 1)
         
-        If Main.Prjlist.Exists(.TextB_name.Text) = True Then
+        If Main.prjlist.Exists(.TextB_name.Text) = True Then
             MsgBox "project already exists!"
             Exit Sub
         End If
@@ -59,7 +59,7 @@ Public Sub comm1_callback() 'Add project
        frcounter = CStr(.TextB_FRnum.Text)
        prjfocus = CStr(.TextB_name.Text)
        
-        Main.Prjlist.Add Item:=auxprj, Key:=CStr(.TextB_name.Text)
+        Main.prjlist.Add Item:=auxprj, Key:=CStr(.TextB_name.Text)
     
         GreyFRup
         UngreyFRdown
@@ -72,16 +72,19 @@ End Sub
 
 Public Sub comm2_callback() 'Remove Project
 
+    Dim prjname As String
+    
     With ControlPanel_Form
     
-        If Main.Prjlist.Exists(.TextB_name.Text) = False Then
+        If Main.prjlist.Exists(.TextB_name.Text) = False Then
             MsgBox "project does not exist!Check the name"
             GoTo exi
         End If
-    
-    Main.Prjlist.Item(.TextB_name.Text).RemoveAllFR
-    Main.Prjlist.Remove .TextB_name.Text
-    ThisWorkbook.Worksheets(.TextB_name.Text).Delete
+    prjname = .TextB_name.Text
+    Main.prjlist.Item(prjname).RemoveAllFR
+    Main.prjlist.Remove prjname
+    DeleteStored (prjname)
+    ThisWorkbook.Worksheets(prjname).Delete
     
     End With
    
@@ -105,13 +108,13 @@ Public Sub comm3_callback() 'Add FR
             GoTo exi
         End If
         
-        If Main.Prjlist.Exists(.TextB_name.Text) = False Then
+        If Main.prjlist.Exists(.TextB_name.Text) = False Then
             MsgBox "project does not exist!Check the name"
             GoTo exi
         End If
        
         
-        Set tmpPRJ = Main.Prjlist.Item(CStr(.TextB_name.Text))
+        Set tmpPRJ = Main.prjlist.Item(CStr(.TextB_name.Text))
         
         tmpPRJ.AddFR (CStr(.TextB_frname))
         
@@ -138,12 +141,12 @@ Public Sub comm4_callback() 'Remove FR
             GoTo exi
         End If
         
-        If Main.Prjlist.Exists(.TextB_name.Text) = False Then
+        If Main.prjlist.Exists(.TextB_name.Text) = False Then
             MsgBox "project does not exist!Check the name"
             GoTo exi
         End If
         
-        Set tmpPRJ = Main.Prjlist.Item(CStr(.TextB_name.Text))
+        Set tmpPRJ = Main.prjlist.Item(CStr(.TextB_name.Text))
         
         
         res = tmpPRJ.RemoveFR(CStr(.TextB_name.Text) + CStr(.TextB_frname))
@@ -159,14 +162,52 @@ exi:
 
 End Sub
 
-Public Sub comm5_callback() 'Modify all FRs
-    Debug.Print "comm4_callback"
+Public Sub comm5_callback() 'Add developer
+
+    Dim tmpUSR As New USR
+   
+    With ControlPanel_Form
+    
+        If Main.prjlist.Exists(.TextB_name.Text) = True Then
+            MsgBox "username already exists!"
+            Exit Sub
+        End If
+        
+        If Main.prjlist.Count < 1 Then
+            MsgBox "Cannot create user with no projects!"
+            Exit Sub
+        End If
+        
+        
+       tmpUSR.Create CStr(.TextB_name.Text)
+       
+        Main.Usrlist.Add Item:=tmpUSR, Key:=CStr(.TextB_name.Text)
+    
+   
+    End With
+    
+End Sub
+Public Sub comm6_callback() 'Remove usr
+
+    Dim usrname As String
+    
+    With ControlPanel_Form
+    
+        If Main.Usrlist.Exists(.TextB_name.Text) = False Then
+            MsgBox "userr does not exist!Check the name"
+            GoTo exi
+        End If
+    usrname = .TextB_name.Text
+    Main.Usrlist.Remove usrname
+    'DeleteStored (usrname)
+    ThisWorkbook.Worksheets(usrname).Delete
+    
+    End With
+   
+exi:
 
 End Sub
-Public Sub comm6_callback() 'Assign FR
-    Debug.Print "comm4_callback"
 
-End Sub
 
 Private Sub Butt_FRok_callback()
 
@@ -184,7 +225,7 @@ Private Sub Butt_FRok_callback()
         End If
         
        
-       Set tempprj = Main.Prjlist.Item(prjfocus)
+       Set tempprj = Main.prjlist.Item(prjfocus)
        
        tempprj.AddFR .TextB_frname
      
@@ -304,7 +345,12 @@ Public Sub comm4_change()
 End Sub
 Public Sub comm5_change()
 
+    GreyFRup
+    GreyFRdown
 End Sub
+
 Public Sub comm6_change()
 
+    GreyFRup
+    GreyFRdown
 End Sub

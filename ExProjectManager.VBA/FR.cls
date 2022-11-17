@@ -92,7 +92,7 @@ End Sub
 
 Public Sub Load(ByVal tabrng As Range, title As String, orig As Range, ByVal PRJ As String)
     
-    Dim tabOrig, tabrange As Range
+
     Dim wstDest As Worksheet
     
     Set wstDest = orig.Worksheet

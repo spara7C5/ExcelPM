@@ -1,6 +1,7 @@
 Attribute VB_Name = "Main"
 Public MainSheets As New Scripting.Dictionary
-Public Prjlist As New Scripting.Dictionary
+Public prjlist As New Scripting.Dictionary
+Public Usrlist As New Scripting.Dictionary
 Dim DeleteSheets As New Collection
 Public Const CPTEMP As String = "Control Panel"
 Public Const FRTEMP As String = "FRTemplate"
@@ -67,7 +68,7 @@ Sub ClearProject()
         
     Next
     
-    Main.Prjlist.RemoveAll
+    Main.prjlist.RemoveAll
 End Sub
 Sub CreateProject()
 
@@ -123,12 +124,11 @@ Sub test2()
 
 End Sub
 
-Sub test3(rng As Range)
+Sub test3()
 
-    Dim r As Range
+    Dim myusr As New USR
     
-
-    'set r = ThisWorkbook.Worksheets("Variables").
+    myusr.Create "pippo"
     
 End Sub
 
@@ -137,7 +137,7 @@ Sub testGet()
 Dim auxprj As PRJ
 
 
-Set auxprj = Main.Prjlist.Item("8000v10")
+Set auxprj = Main.prjlist.Item("8000v10")
 auxprj.EditFR "8000v10last", "Task", "Modelling", "Owner", "12345"
 
 End Sub

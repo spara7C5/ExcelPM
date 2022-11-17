@@ -20,8 +20,9 @@ Const comm1 As String = "Add Project"
 Const comm2 As String = "Remove Project"
 Const comm3 As String = "Add FR"
 Const comm4 As String = "Remove FR"
-Const comm5 As String = "Modify all FRs"
-Const comm6 As String = "Assign FR"
+Const comm5 As String = "Add developer"
+Const comm6 As String = "Remove developer"
+'Const comm6 As String = "Assign FR"
 
 Private comm_dic As New Scripting.Dictionary
 
