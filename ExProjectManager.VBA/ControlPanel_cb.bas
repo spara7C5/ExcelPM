@@ -73,6 +73,7 @@ End Sub
 Public Sub comm2_callback() 'Remove Project
 
     Dim prjname As String
+    Dim resp As Variant
     
     With ControlPanel_Form
     
@@ -80,11 +81,15 @@ Public Sub comm2_callback() 'Remove Project
             MsgBox "project does not exist!Check the name"
             GoTo exi
         End If
+        
     prjname = .TextB_name.Text
+    
+    Application.DisplayAlerts = False 'disabling alert message for sheet deleting
     Main.prjlist.Item(prjname).RemoveAllFR
     Main.prjlist.Remove prjname
     DeleteStored (prjname)
     ThisWorkbook.Worksheets(prjname).Delete
+    Application.DisplayAlerts = True
     
     End With
    

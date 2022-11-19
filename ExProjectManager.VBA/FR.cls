@@ -22,8 +22,8 @@ Private m_title As Range
 Private m_ws As Worksheet
 Public m_prj As String
 Private test As Integer
-
 Public m_tab As ListObject
+
 '''''''''''''''''''''''''''''''''''''''''''''''''''
 ' End Member variables declaration section
 '''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -157,6 +157,14 @@ Sub EditTable(COLSearch As String, COLValue As String, COLTarget As String, NEWV
     
 End Sub
 
+Public Function GetTable(COLSearch As String, COLValue As String, COLTarget As String) As Variant
+    
+    Dim x, y As Integer
+    y = Application.WorksheetFunction.Match(COLValue, m_tab.ListColumns(COLSearch).Range, 0)
+    x = Application.WorksheetFunction.Match(COLTarget, m_tab.HeaderRowRange, 0)
+    GetTable = m_tab.DataBodyRange.Cells(y - 1, x)
+  
+End Function
 
 Sub Clear()
     

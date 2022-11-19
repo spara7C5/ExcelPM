@@ -25,6 +25,12 @@ Enum ObjectType
  USR_OBJ = ObjectType_n
 End Enum
 
+Enum ColIdx
+    IDX_WHITE = 2
+    IDX_RED = 3
+    IDX_GREEN = 4
+End Enum
+
 
 '''''''''''''''''''''''''''''''''''''
 'Initialize
@@ -69,6 +75,8 @@ Sub ClearProject()
     Next
     
     Main.prjlist.RemoveAll
+    Main.Usrlist.RemoveAll
+    
 End Sub
 Sub CreateProject()
 

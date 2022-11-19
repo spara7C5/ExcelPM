@@ -24,8 +24,8 @@ Private m_frnum As Integer
 Private m_ws As Worksheet 'sheet name and prj name are the same
 Private m_frOrigPointer As Range
 
-
 Public m_frrange As Range
+Public m_taskrange As Range
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''
 ' End Member variables declaration section
@@ -57,7 +57,7 @@ Public Sub Create(ByVal name As String)
     
     m_name = name
     
-    ActiveWorkbook.Worksheets.Add(After:=Sheets(Sheets.Count)).name = m_name
+    ActiveWorkbook.Worksheets.Add(After:=Sheets(Main.prjlist.Count + 3)).name = m_name
     Set m_ws = ActiveWorkbook.Worksheets(m_name)
     
     Set m_frOrigPointer = m_ws.Cells(1, 1)
@@ -108,6 +108,7 @@ Public Sub AddFR(title As String)
     If auxrng Is Nothing Then
 
         auxFR.Create m_frrange, fullname, m_frOrigPointer, m_name
+        Set m_taskrange = auxFR.m_tab.ListColumns("Task").Range
         m_FRlist.Add Item:=auxFR, Key:=fullname
         Set m_frOrigPointer = m_ws.Cells(auxFR.m_tab.TotalsRowRange.Rows.Row + 1, 1)
         UpdateAndStore
@@ -179,6 +180,16 @@ Public Sub EditFR(frn As String, COLSearch As String, COLValue As String, COLTar
     frx.EditTable COLSearch, COLValue, COLTarget, NEWVal
 
 End Sub
+
+Public Function GetFR(frn As String, COLSearch As String, COLValue As String, COLTarget As String) As Variant
+    
+    Dim frx As FR
+    
+    Set frx = m_FRlist.Item(frn)
+    
+    GetFR = frx.GetTable(COLSearch, COLValue, COLTarget)
+
+End Function
 '''''''''''''''''''''''''''''''''''''''''''''''''''
 ' End of Subroutine section
 '''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -30,5 +30,6 @@ Public Sub Deliv_cb()
     
     Set tmpUSR = Main.Usrlist.Item(tmpstr)
 
-
+    tmpUSR.deliv
+    
 End Sub

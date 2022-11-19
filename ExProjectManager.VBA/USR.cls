@@ -30,6 +30,14 @@ Public butdeliv As Button
 ' End Member variables declaration section
 '''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Enum work_cols
+    COL_DATE = 1
+    COL_PRJ = 2
+    COL_FR = 3
+    COL_ACTIVITY = 4
+    COL_HOURS = 5
+
+End Enum
 
 
 
@@ -83,6 +91,7 @@ Public Sub Create(ByVal name As String)
     'Main.Prjlist.Item(m_tab_dayactivity.ListColumns(m_tab_dayactivity.ListColumns.Count - 1).DataBodyRange.Cells(1, 1).value).frlist
     
     addday  'Add first day
+    m_tab_dayactivity.ListColumns(6).Delete
     UpdateAndStore
       
 End Sub
@@ -160,6 +169,14 @@ Public Sub updatevalues()
     .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:=xlEqual, Formula1:=Join(Main.prjlist.Keys, ",")
     
     End With
+  
+    'With m_tab_dayactivity.ListColumns("Task").Range.Validation
+
+    '.Delete
+    '.Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:=xlEqual, Formula1:=Join(Main.prjlist.Keys, ",")
+    
+    'End With
+    
 End Sub
 
 Public Sub addday()
@@ -171,8 +188,39 @@ End Sub
 
 Public Sub deliv()
 
-    m_tab_dayactivity.ListRows.Add
+    Dim rw As ListRow
+    Dim tmpval As Integer
     
+
+    For Each rw In m_tab_dayactivity.ListRows
+    
+        If rw.Range.Cells(1, COL_DATE).Interior.ColorIndex <> IDX_GREEN Then
+        
+            On Error GoTo exi
+            
+                tmpval = Main.prjlist(rw.Range.Cells(1, COL_PRJ).value).GetFR( _
+                rw.Range.Cells(1, COL_PRJ).value & rw.Range.Cells(1, COL_FR).value, _
+                "Task", _
+                rw.Range.Cells(1, COL_ACTIVITY).value, _
+                "Actual Effort" _
+                )
+                
+                tmpval = tmpval + rw.Range.Cells(1, COL_HOURS).value
+            
+                Main.prjlist(rw.Range.Cells(1, COL_PRJ).value).EditFR _
+                rw.Range.Cells(1, COL_PRJ).value & rw.Range.Cells(1, COL_FR).value, _
+                "Task", _
+                rw.Range.Cells(1, COL_ACTIVITY).value, _
+                "Actual Effort", _
+                tmpval
+                 
+                rw.Range.Cells(1, COL_DATE).Interior.ColorIndex = IDX_GREEN
+
+        End If
+    
+     Next rw
+exi:
+ 
 End Sub
 
 

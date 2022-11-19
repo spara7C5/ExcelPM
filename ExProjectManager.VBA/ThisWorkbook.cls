@@ -29,3 +29,25 @@ Sub Workbook_SheetActivate(ByVal Sh As Object)
 End Sub
 
 
+Private Sub Workbook_SheetChange(ByVal Sh As Object, ByVal Target As Range)
+
+    Dim tmpUSR As USR
+    
+    If Main.Usrlist.Exists(Sh.name) Then
+    
+        Set tmpUSR = Main.Usrlist(Sh.name)
+        'If Intersect(Target, tmpUSR.m_tab_dayactivity.ListColumns(COL_PRJ)) Is Nothing Then
+        '
+        'Else
+        '
+        '    Debug.Print "trigger"
+        '
+        'End If
+        
+    
+    
+    End If
+    
+    
+    
+End Sub
